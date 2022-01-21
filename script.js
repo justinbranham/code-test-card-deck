@@ -179,3 +179,35 @@ const deck = new CardDeck(".deck", ".hand");
 
 // Take a look at the deck object and its methods.
 console.log(deck);
+
+//Get URL parameters
+const queryString = window.location.search;
+//console.log(queryString);
+const urlParams = new URLSearchParams(queryString);
+////console.log(urlParams);
+const keys = urlParams.keys();
+
+//Iterate through URL parameters and matching values with predefined deck element keys
+for (const key of keys) {
+	//console.log(urlParams.get(key));
+	if (key == 'suits') {
+		var myKey = 'suit'; 
+	}else if (key == 'cards') {
+		var myKey = 'id'; 
+	}else if (key == 'ranks') {
+		var myKey = 'rank'; 
+	}else if (key == 'limit') {
+		//Break if search parameters includes a 'limit'. Otherwise, filter method will return no cards.
+		break;
+	};
+	deck.filter(myKey,urlParams.get(key))
+};
+
+//Limit number of cards drawn.
+deck.limit(urlParams.get('limit'));
+
+//Sort cards
+deck.sort();
+
+//Draw cards after sorted and filtered
+deck.drawFiltered();
